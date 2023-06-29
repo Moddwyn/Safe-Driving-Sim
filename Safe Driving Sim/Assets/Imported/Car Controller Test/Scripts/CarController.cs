@@ -8,11 +8,12 @@ public class CarController : MonoBehaviour
     private const string HORIZONTAL = "Horizontal";
     private const string VERTICAL = "Vertical";
 
-    private float horizontalInput;
-    private float verticalInput;
+    public float horizontalInput;
+    public float verticalInput;
+    public bool isBreaking;
+
     private float currentSteerAngle;
     private float currentbreakForce;
-    private bool isBreaking;
 
     [SerializeField] private float motorForce;
     [SerializeField] private float breakForce;
@@ -30,18 +31,9 @@ public class CarController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        GetInput();
         HandleMotor();
         HandleSteering();
         UpdateWheels();
-    }
-
-
-    private void GetInput()
-    {
-        horizontalInput = Input.GetAxis(HORIZONTAL);
-        verticalInput = Input.GetAxis(VERTICAL);
-        isBreaking = Input.GetKey(KeyCode.Space);
     }
 
     private void HandleMotor()
