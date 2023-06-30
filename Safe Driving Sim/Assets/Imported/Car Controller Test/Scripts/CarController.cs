@@ -31,9 +31,17 @@ public class CarController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        GetInput();
         HandleMotor();
         HandleSteering();
         UpdateWheels();
+    }
+
+    private void GetInput()
+    {
+        horizontalInput = Input.GetAxis(HORIZONTAL);
+        verticalInput = Input.GetAxis(VERTICAL);
+        isBreaking = Input.GetKey(KeyCode.Space);
     }
 
     private void HandleMotor()
