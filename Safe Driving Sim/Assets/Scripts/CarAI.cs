@@ -12,7 +12,8 @@ public class CarAI : MonoBehaviour
 
     public int currIndex = 0;
 
-    private float s;
+    [HideInInspector] public float s;
+    public bool reverse;
 
     private void Awake()
     {
@@ -44,22 +45,27 @@ public class CarAI : MonoBehaviour
         if (currIndex >= nodes.Length) {
             currIndex = 0;
         }
-       
+    }
+
+    public void Test()
+    {
+        
     }
 
     private void OnTriggerStay(Collider other)
     {
-        Debug.Log(gameObject.name + ": " + other.name);
-        if (other.transform.CompareTag("Collision") && other.gameObject != gameObject) {
-            speed = 0;
+        if (other.transform.CompareTag("Collision") && other.transform.root != transform) {
+            speed = -1;
+            reverse = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.transform.CompareTag("Collision") && other.gameObject != gameObject)
+        if (other.transform.CompareTag("Collision") && other.transform.root != transform)
         {
             speed = s;
+            reverse = false;
         }
     }
 }
