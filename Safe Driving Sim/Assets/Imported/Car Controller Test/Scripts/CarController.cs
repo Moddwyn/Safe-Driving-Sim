@@ -15,6 +15,10 @@ public class CarController : MonoBehaviour
     public float verticalInput;
     public bool isBreaking;
 
+    public float currentSpeed;
+    public List<float> speeds = new List<float>();
+  
+
     private float currentSteerAngle;
     private float currentbreakForce;
 
@@ -26,14 +30,22 @@ public class CarController : MonoBehaviour
     [SerializeField] private WheelCollider frontRightWheelCollider;
     [SerializeField] private WheelCollider rearLeftWheelCollider;
     [SerializeField] private WheelCollider rearRightWheelCollider;
+    private WheelCollider[] wheelColliders;
 
     [SerializeField] private Transform frontLeftWheelTransform;
     [SerializeField] private Transform frontRightWheeTransform;
     [SerializeField] private Transform rearLeftWheelTransform;
     [SerializeField] private Transform rearRightWheelTransform;
 
+    private void Awake()
+    {
+        wheelColliders = new WheelCollider[4]{ frontLeftWheelCollider, frontRightWheelCollider, rearLeftWheelCollider, rearRightWheelCollider };
+    }
+
     private void FixedUpdate()
     {
+        currentSpeed = CalculateSpeed();
+        speeds.Add(currentSpeed);
         GetInput();
         HandleMotor();
         HandleSteering();
@@ -85,6 +97,24 @@ public class CarController : MonoBehaviour
         wheelCollider.GetWorldPose(out pos, out rot);
         wheelTransform.rotation = rot;
         wheelTransform.position = pos;
+    }
+
+    private float CalculateSpeed()
+    {
+        float totalSpeed = 0f;
+
+        foreach (WheelCollider wheelCollider in wheelColliders)
+        {
+            if (!wheelCollider.isGrounded) {
+                continue;
+            }
+            float wheelAngularVelocity = wheelCollider.rpm * 2f * Mathf.PI / 60f;
+            float wheelSpeed = wheelAngularVelocity * 0.35f;
+
+            totalSpeed += wheelSpeed;
+        }
+
+        return Mathf.Abs(totalSpeed / wheelColliders.Length);
     }
 
     void OnCollisionEnter(Collision other)
