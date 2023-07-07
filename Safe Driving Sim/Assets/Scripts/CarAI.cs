@@ -7,16 +7,18 @@ public class CarAI : MonoBehaviour
 
     public Node[] nodes;
 
-    public float speed = 1f;
+    public Vector2 speedRange;
     public float turnSmoothness = 1f;
 
     public int currIndex = 0;
 
+    public float speed = 1f;
     [HideInInspector] public float s;
     public bool reverse;
 
     private void Awake()
     {
+        speed = Random.Range(speedRange.x, speedRange.y);
         s = speed;
     }
 
