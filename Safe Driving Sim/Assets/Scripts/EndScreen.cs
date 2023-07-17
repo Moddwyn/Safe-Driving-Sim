@@ -7,7 +7,9 @@ using TMPro;
 public class EndScreen : MonoBehaviour
 {
     public TextMeshProUGUI timeText;
+    public TextMeshProUGUI causeText;
     public TextMeshProUGUI averageSpeedText;
+    [HideInInspector] public string cause;
 
 
     private void OnEnable()
@@ -17,11 +19,13 @@ public class EndScreen : MonoBehaviour
         string seconds = t.Seconds < 10 ? "0" + t.Seconds : t.Seconds.ToString();
         timeText.text = "Time: " + minutes + ":" + seconds;
 
+        causeText.text = "Fail Cause: " + cause;
+
         CarController carController = FindObjectOfType<CarController>();
         float totalSpeed = 0f;
         foreach (float speed in carController.speeds) {
             totalSpeed += speed;
         }
-        averageSpeedText.text = (totalSpeed / carController.speeds.Count).ToString() + " km/h";
+        averageSpeedText.text = "Average Speed: " + (totalSpeed / carController.speeds.Count).ToString() + " km/h";
     }
 }

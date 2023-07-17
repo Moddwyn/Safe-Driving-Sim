@@ -5,7 +5,7 @@ using TMPro;
 
 public class CarUI : MonoBehaviour
 {
-    public TextMeshProUGUI speedText;
+    public TextMeshProUGUI speedText, centeredText, wrongWayText;
     private CarController carController;
 
     private void Awake()
@@ -15,6 +15,8 @@ public class CarUI : MonoBehaviour
 
     private void Update()
     {
-        speedText.text = Mathf.Round((carController.currentSpeed * 3.6f)).ToString() + " km/h";
+        speedText.text = Mathf.Round((carController.currentSpeed)).ToString() + " km/h";
+        centeredText.enabled = !carController.isCentered;
+        wrongWayText.enabled = !carController.facingLane;
     }
 }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Collision
   - Stop Walk
+  - Lane
   layers:
   - Default
   - TransparentFX

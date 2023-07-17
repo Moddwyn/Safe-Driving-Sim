@@ -13,11 +13,13 @@ public class CarController : MonoBehaviour
 
     public float horizontalInput;
     public float verticalInput;
+    public float maxLaneAngle;
     public bool isBreaking;
-
+    public bool isCentered;
+    public bool facingLane;
     public float currentSpeed;
-    public List<float> speeds = new List<float>();
-  
+
+    [HideInInspector] public List<float> speeds = new List<float>();
 
     private float currentSteerAngle;
     private float currentbreakForce;
@@ -36,10 +38,10 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform frontRightWheeTransform;
     [SerializeField] private Transform rearLeftWheelTransform;
     [SerializeField] private Transform rearRightWheelTransform;
-
+     
     private void Awake()
     {
-        wheelColliders = new WheelCollider[4]{ frontLeftWheelCollider, frontRightWheelCollider, rearLeftWheelCollider, rearRightWheelCollider };
+        wheelColliders = new WheelCollider[4] { frontLeftWheelCollider, frontRightWheelCollider, rearLeftWheelCollider, rearRightWheelCollider };
     }
 
     private void FixedUpdate()
@@ -63,8 +65,10 @@ public class CarController : MonoBehaviour
     {
         frontLeftWheelCollider.motorTorque = verticalInput * motorForce;
         frontRightWheelCollider.motorTorque = verticalInput * motorForce;
+        rearLeftWheelCollider.motorTorque = verticalInput * motorForce;
+        rearRightWheelCollider.motorTorque = verticalInput * motorForce;
         currentbreakForce = isBreaking ? breakForce : 0f;
-        ApplyBreaking();       
+        ApplyBreaking();
     }
 
     private void ApplyBreaking()
@@ -105,7 +109,8 @@ public class CarController : MonoBehaviour
 
         foreach (WheelCollider wheelCollider in wheelColliders)
         {
-            if (!wheelCollider.isGrounded) {
+            if (!wheelCollider.isGrounded)
+            {
                 continue;
             }
             float wheelAngularVelocity = wheelCollider.rpm * 2f * Mathf.PI / 60f;
@@ -114,14 +119,47 @@ public class CarController : MonoBehaviour
             totalSpeed += wheelSpeed;
         }
 
-        return Mathf.Abs(totalSpeed / wheelColliders.Length);
+        return Mathf.Abs(totalSpeed / wheelColliders.Length * 3.6f);
     }
 
     void OnCollisionEnter(Collision other)
     {
         if (other.transform.CompareTag("Collision") && other.transform != transform)
         {
+            CollisionCause collisionCause = other.transform.GetComponent<CollisionCause>();
+            if (collisionCause != null) {
+                FindObjectOfType<EndScreen>().cause = collisionCause.cause;
+            }
             OnCollision?.Invoke();
         }
     }
+
+    private void OnTriggerStay(Collider other) {           
+        if (other.transform.CompareTag("Lane")) {
+            facingLane = Mathf.Abs(Mathf.DeltaAngle(other.transform.eulerAngles.y, transform.eulerAngles.y)) <= maxLaneAngle;
+            isCentered = true;
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.CompareTag("Collision") && other.transform != transform)
+        {
+            CollisionCause collisionCause = other.transform.GetComponent<CollisionCause>();
+            if (collisionCause != null)
+            {
+                FindObjectOfType<EndScreen>().cause = collisionCause.cause;
+            }
+            OnCollision?.Invoke();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.transform.CompareTag("Lane"))
+        {
+            isCentered = false;
+        }
+    }
+
 }
