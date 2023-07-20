@@ -1,33 +1,50 @@
 using System.Collections;
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 
 public class CarAI : MonoBehaviour
 {
-
-    public Node[] nodes;
-
+    public bool resetAtStart;
+    public bool randomGroup;
+    [HideIf("WantsRandomGroup")] public int group;
+    [SerializeField][ReadOnly] List<Node> nodes;
+    [ReadOnly] public int currIndex = 0;
+    [HorizontalLine]
     public Vector2 speedRange;
     public float turnSmoothness = 1f;
+    
+    [HorizontalLine]
+    [ReadOnly] public float speed = 1f;
+    [ReadOnly] public float currentSpeed;
+    [ReadOnly] public bool reverse;
 
-    public int currIndex = 0;
-
-    public float speed = 1f;
-    [HideInInspector] public float s;
-    public bool reverse;
-
-    private void Awake()
+    void Awake()
     {
         speed = Random.Range(speedRange.x, speedRange.y);
-        s = speed;
+        currentSpeed = speed;
     }
 
-    private void Update()
+    void Start()
+    {
+        if(WantsRandomGroup())
+        {
+            nodes.Clear();
+            nodes = NodeGroup.Instance.GrabRandomGroup();
+        } else
+        {
+            nodes = NodeGroup.Instance.GrabGroup(group);
+        }
+        if(resetAtStart) ResetCar();
+    }
+
+    void Update()
     {
         CarMovement();
     }
 
-    private void CarMovement() {
+    void CarMovement() {
+        if(nodes.Count == 0) return;
 
         Vector3 targetPosition = new Vector3(nodes[currIndex].transform.position.x, transform.root.position.y, nodes[currIndex].transform.position.z);
         Quaternion targetRotation = transform.root.rotation;
@@ -44,30 +61,19 @@ public class CarAI : MonoBehaviour
             currIndex++;
         }
 
-        if (currIndex >= nodes.Length) {
+        if (currIndex >= nodes.Count) {
             currIndex = 0;
         }
     }
 
-    public void Test()
+    public void ResetCar()
     {
-        
+        currIndex = 0;
+
+        if(nodes.Count == 0) return;
+        Vector3 targetPosition = new Vector3(nodes[currIndex].transform.position.x, transform.root.position.y, nodes[currIndex].transform.position.z);
+        transform.root.position = targetPosition;
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.transform.CompareTag("Collision") && other.transform.root != transform) {
-            speed = -1;
-            reverse = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.transform.CompareTag("Collision") && other.transform.root != transform)
-        {
-            speed = s;
-            reverse = false;
-        }
-    }
+    bool WantsRandomGroup() => randomGroup;
 }

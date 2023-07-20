@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1649032621041949785}
   - component: {fileID: 1628941529263387775}
   - component: {fileID: 1637186790370720859}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Rear Right Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 1648967791372007741}
   - component: {fileID: 1628251172569544611}
   - component: {fileID: 1638940526622528265}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Spoiler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 1648912052208677639}
   - component: {fileID: 1629146320348258215}
   - component: {fileID: 1638962239339647181}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Front Righ Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 1648937441259044827}
   - component: {fileID: 1628909864253314353}
   - component: {fileID: 1639256090302601167}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Rear Left Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 1656711231485738685}
   - component: {fileID: 1628311627104546427}
   - component: {fileID: 1639059360231425415}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -427,7 +427,7 @@ GameObject:
   - component: {fileID: 1656469261928998513}
   - component: {fileID: 1629144577180009897}
   - component: {fileID: 1639129076267422971}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Front Left Wheel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -510,7 +510,8 @@ GameObject:
   - component: {fileID: 1656226583737008253}
   - component: {fileID: 1651565524108161369}
   - component: {fileID: 1651565524108161366}
-  m_Layer: 0
+  - component: {fileID: 4779975426021388122}
+  m_Layer: 7
   m_Name: AI Car
   m_TagString: Collision
   m_Icon: {fileID: 0}
@@ -550,7 +551,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 64
   m_CollisionDetection: 0
 --- !u!65 &1651565524108161366
 BoxCollider:
@@ -565,6 +566,28 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.99, y: 1.19, z: 4.63}
   m_Center: {x: 0, y: 0.78, z: 0}
+--- !u!114 &4779975426021388122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651565524108161367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: def43905f353ae34ca9d74a4e0895d6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resetAtStart: 0
+  randomGroup: 0
+  group: 0
+  nodes: []
+  currIndex: 0
+  speedRange: {x: 6, y: 7}
+  turnSmoothness: 4
+  speed: 4
+  currentSpeed: 0
+  reverse: 0
 --- !u!1 &2336147879731849682
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,7 +597,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2336147879731849685}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Wheels Transforms
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -610,7 +633,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2336147879928244866}
   - component: {fileID: 2336147879928244869}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Front Right Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -672,7 +695,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2336147880010569741}
   - component: {fileID: 2336147880010569740}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Rear Left Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -734,7 +757,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2336147880644566347}
   - component: {fileID: 2336147880644566346}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Rear Right Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -795,7 +818,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2336147880837079393}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -829,7 +852,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2336147881038821710}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Wheels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -863,7 +886,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2336147881122559701}
   - component: {fileID: 2336147881122559700}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Front Left Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -924,7 +947,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2336147881390047897}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Wheel Colliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -960,9 +983,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4490180481852253460}
   - component: {fileID: 4490180481852253461}
-  - component: {fileID: 4490180481852253466}
-  m_Layer: 0
-  m_Name: Car AI
+  - component: {fileID: 6640092176931980472}
+  m_Layer: 7
+  m_Name: Reverse Check
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -996,7 +1019,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 1, z: 1}
   m_Center: {x: 0, y: 0.65, z: 2.75}
---- !u!114 &4490180481852253466
+--- !u!114 &6640092176931980472
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1005,16 +1028,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4490180481852253463}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: def43905f353ae34ca9d74a4e0895d6c, type: 3}
+  m_Script: {fileID: 11500000, guid: f76d69a0f2770c24885728e42228ac1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodes: []
-  speedRange: {x: 3.5, y: 4.5}
-  turnSmoothness: 4
-  currIndex: 0
-  speed: 4
-  s: 0
-  reverse: 0
+  car: {fileID: 4779975426021388122}
 --- !u!1 &4490180482654518456
 GameObject:
   m_ObjectHideFlags: 0
@@ -1026,8 +1043,8 @@ GameObject:
   - component: {fileID: 4490180482654518457}
   - component: {fileID: 4490180482654518463}
   - component: {fileID: 4490180482654518462}
-  m_Layer: 0
-  m_Name: Detector
+  m_Layer: 7
+  m_Name: Collision Check
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1059,8 +1076,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 1, z: 2.1776657}
-  m_Center: {x: 0, y: 0.65, z: 4.481168}
+  m_Size: {x: 2, y: 1, z: 0.8824537}
+  m_Center: {x: -2.3652141e-15, y: 0.65, z: 3.833562}
 --- !u!114 &4490180482654518462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1070,10 +1087,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4490180482654518456}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b1707d511989bf43bc7c4acbc3d32c5, type: 3}
+  m_Script: {fileID: 11500000, guid: a168b575bd81e824a9c14c465aeb8326, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  car: {fileID: 4490180481852253466}
+  car: {fileID: 4779975426021388122}
+  colliding: 0
 --- !u!1 &4490180482675075342
 GameObject:
   m_ObjectHideFlags: 0
@@ -1086,7 +1104,7 @@ GameObject:
   - component: {fileID: 4490180482675075340}
   - component: {fileID: 4490180482675075343}
   - component: {fileID: 4490180482675075338}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}

@@ -5,23 +5,28 @@ using UnityEngine;
 public class PedestrianCrosswalk : MonoBehaviour
 {
     public Pedestrian pedestrian;
+    public bool onCrosswalk;
+    public bool greenLight;
+    void Update()
+    {
+        pedestrian.isWaiting = onCrosswalk && !greenLight;
+    }
 
     void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Stop Walk" && pedestrian.currentCrosswalk)
+        if (other.GetComponent<Crosswalk>())
         {
-            if (!other.transform.parent.GetComponent<Crosswalk>().go)
-                pedestrian.waitingToCross = true;
-            else
-                pedestrian.waitingToCross = false;
+            onCrosswalk = true;
+            if(other.GetComponent<Crosswalk>().go) greenLight = true;
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Stop Walk" && pedestrian.currentCrosswalk)
+        if (other.GetComponent<Crosswalk>())
         {
-                pedestrian.waitingToCross = false;
+            onCrosswalk = false;
+            greenLight = false;
         }
     }
 }

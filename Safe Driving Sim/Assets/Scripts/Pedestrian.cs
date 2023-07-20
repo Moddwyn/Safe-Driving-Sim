@@ -15,9 +15,8 @@ public class Pedestrian : MonoBehaviour
     public Animator animator;
 
     [Space(20)]
+    public bool isIdling;
     public bool isWaiting;
-    public bool currentCrosswalk;
-    public bool waitingToCross;
 
     void Start()
     {
@@ -29,30 +28,10 @@ public class Pedestrian : MonoBehaviour
     void Update()
     {
         // Check if the agent has reached its current destination
-        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance && !isWaiting)
-        {
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance && !isIdling)
             StartCoroutine(WaitBeforeNewDestination());
-        }
-
-        currentCrosswalk = PathContainsCrossWalk(agent.path) && agent.hasPath;
-
-        animator.SetBool("Walking", !isWaiting && !waitingToCross);
-
-        if(agent.hasPath)
-            agent.isStopped = waitingToCross && currentCrosswalk;
-    }
-
-    private bool PathContainsCrossWalk(NavMeshPath path)
-    {
-        NavMeshHit hit;
-        for (int i = 1; i < path.corners.Length; i++)
-        {
-            if (NavMesh.SamplePosition(path.corners[i], out hit, 0.1f, 8))
-            {
-                return true;
-            }
-        }
-        return false;
+        animator.SetBool("Walking", !isIdling && !isWaiting);
+        if(agent.hasPath) agent.isStopped = isWaiting;
     }
 
     void SetNewDestination()
@@ -63,10 +42,10 @@ public class Pedestrian : MonoBehaviour
 
     IEnumerator WaitBeforeNewDestination()
     {
-        isWaiting = true;
+        isIdling = true;
         yield return new WaitForSeconds(Random.Range(idleTimeRange.x, idleTimeRange.y));
         SetNewDestination();
-        isWaiting = false;
+        isIdling = false;
     }
 
     
