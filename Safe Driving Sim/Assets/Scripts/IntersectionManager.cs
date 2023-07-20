@@ -7,7 +7,7 @@ using UnityEngine;
 public class IntersectionManager : MonoBehaviour
 {
     public List<RoutinePattern> patterns;
-    
+
     public TrafficLight nwLight;
     public TrafficLight neLight;
     public TrafficLight swLight;
@@ -31,28 +31,33 @@ public class IntersectionManager : MonoBehaviour
 
     void Start()
     {
-        nwText.gameObject.SetActive(showTexts);
-        neText.gameObject.SetActive(showTexts);
-        swText.gameObject.SetActive(showTexts);
-        seText.gameObject.SetActive(showTexts);
+        if (nwText != null)
+        {
+            nwText.gameObject.SetActive(showTexts);
+            neText.gameObject.SetActive(showTexts);
+            swText.gameObject.SetActive(showTexts);
+            seText.gameObject.SetActive(showTexts);
+        }
         StartCoroutine(TrafficRoutine());
     }
 
     void Update()
     {
-        nwText.color = nwLight.trafficColor == TrafficLight.LightColor.Red ? redColor :
-                                    nwLight.trafficColor == TrafficLight.LightColor.Yellow ? yellowColor : greenColor;
+        if (nwText != null)
+        {
+            nwText.color = nwLight.trafficColor == TrafficLight.LightColor.Red ? redColor :
+                                        nwLight.trafficColor == TrafficLight.LightColor.Yellow ? yellowColor : greenColor;
 
-        neText.color = neLight.trafficColor == TrafficLight.LightColor.Red ? redColor :
-                                    neLight.trafficColor == TrafficLight.LightColor.Yellow ? yellowColor : greenColor;
+            neText.color = neLight.trafficColor == TrafficLight.LightColor.Red ? redColor :
+                                        neLight.trafficColor == TrafficLight.LightColor.Yellow ? yellowColor : greenColor;
 
-        swText.color = swLight.trafficColor == TrafficLight.LightColor.Red ? redColor :
-                                    swLight.trafficColor == TrafficLight.LightColor.Yellow ? yellowColor : greenColor;
+            swText.color = swLight.trafficColor == TrafficLight.LightColor.Red ? redColor :
+                                        swLight.trafficColor == TrafficLight.LightColor.Yellow ? yellowColor : greenColor;
 
-        seText.color = seLight.trafficColor == TrafficLight.LightColor.Red ? redColor :
-                                    seLight.trafficColor == TrafficLight.LightColor.Yellow ? yellowColor : greenColor;
-        
-        if(Input.GetKeyDown(KeyCode.T)) Time.timeScale = 3;
+            seText.color = seLight.trafficColor == TrafficLight.LightColor.Red ? redColor :
+                                        seLight.trafficColor == TrafficLight.LightColor.Yellow ? yellowColor : greenColor;
+        }
+        if (Input.GetKeyDown(KeyCode.T)) Time.timeScale = 3;
     }
 
     IEnumerator TrafficRoutine()
@@ -61,8 +66,8 @@ public class IntersectionManager : MonoBehaviour
         foreach (var l in patterns[currentPattern].lightActions)
         {
             if (l.light == LightDirection.NW) dirLight = nwLight;
-            else if(l.light == LightDirection.NE) dirLight = neLight;
-            else if(l.light == LightDirection.SW) dirLight = swLight;
+            else if (l.light == LightDirection.NE) dirLight = neLight;
+            else if (l.light == LightDirection.SW) dirLight = swLight;
             else dirLight = seLight;
             dirLight.trafficColor = l.color;
             dirLight.inverseColor = l.inverseColor;
@@ -72,10 +77,10 @@ public class IntersectionManager : MonoBehaviour
         foreach (var l in patterns[currentPattern].lightActions)
         {
             if (l.light == LightDirection.NW) dirLight = nwLight;
-            else if(l.light == LightDirection.NE) dirLight = neLight;
-            else if(l.light == LightDirection.SW) dirLight = swLight;
+            else if (l.light == LightDirection.NE) dirLight = neLight;
+            else if (l.light == LightDirection.SW) dirLight = swLight;
             else dirLight = seLight;
-            if(dirLight.trafficColor == TrafficLight.LightColor.Green)
+            if (dirLight.trafficColor == TrafficLight.LightColor.Green)
             {
                 dirLight.trafficColor = TrafficLight.LightColor.Yellow;
             }
@@ -83,7 +88,7 @@ public class IntersectionManager : MonoBehaviour
         yield return new WaitForSeconds(yellowIdle);
 
         currentPattern++;
-        if(currentPattern >= patterns.Count) currentPattern = 0;
+        if (currentPattern >= patterns.Count) currentPattern = 0;
         StartCoroutine(TrafficRoutine());
     }
 }
