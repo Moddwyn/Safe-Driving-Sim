@@ -22,6 +22,7 @@ public class CarAICollision : MonoBehaviour
     {
         colliders = Physics.OverlapBox(boxCollider.bounds.center, boxCollider.bounds.extents, Quaternion.identity);
         colliding = colliders.Any(c => c.CompareTag("Collision") && c.transform.root != transform && !car.reverse);
-        car.speed = colliding ? 0 : car.currentSpeed;
+        if(!car.reverse)
+            car.speed = colliding ? 0 : car.currentSpeed;
     }
 }
