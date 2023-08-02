@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Level : MonoBehaviour
 {
-    public float startTime;
+    [HideInInspector] public float startTime;
 
     private void Awake()
     {
