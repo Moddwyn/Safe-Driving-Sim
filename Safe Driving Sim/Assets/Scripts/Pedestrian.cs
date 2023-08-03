@@ -17,6 +17,9 @@ public class Pedestrian : MonoBehaviour
     [Space(20)]
     public bool isIdling;
     public bool isWaiting;
+    public bool onCrossWalk;
+
+    NavMeshHit hit;
 
     void Start()
     {
@@ -32,6 +35,7 @@ public class Pedestrian : MonoBehaviour
             StartCoroutine(WaitBeforeNewDestination());
         animator.SetBool("Walking", !isIdling && !isWaiting);
         if(agent.hasPath) agent.isStopped = isWaiting;
+        onCrossWalk = NavMesh.SamplePosition(agent.transform.position, out hit, 0.1f, 8);
     }
 
     void SetNewDestination()

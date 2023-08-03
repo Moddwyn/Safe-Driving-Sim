@@ -8,7 +8,7 @@ public class CarAI : MonoBehaviour
     public bool resetAtStart;
     public bool randomGroup;
     [HideIf("WantsRandomGroup")] public int group;
-    [SerializeField][ReadOnly] List<Node> nodes;
+    [SerializeField][HideIf("WantsRandomGroup")] List<Node> nodes;
     [ReadOnly] public int currIndex = 0;
     [HorizontalLine]
     public Vector2 speedRange;
@@ -33,7 +33,8 @@ public class CarAI : MonoBehaviour
             nodes = NodeGroup.Instance.GrabRandomGroup();
         } else
         {
-            nodes = NodeGroup.Instance.GrabGroup(group);
+            if(nodes.Count == 0)
+                nodes = NodeGroup.Instance.GrabGroup(group);
         }
         if(resetAtStart) ResetCar();
     }
