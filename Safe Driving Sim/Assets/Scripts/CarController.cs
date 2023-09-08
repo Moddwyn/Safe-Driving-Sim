@@ -19,6 +19,10 @@ public class CarController : MonoBehaviour
     public bool facingLane;
     public float currentSpeed;
 
+    [Header("Stop Sign")]
+    public bool waitingStopped;
+    public bool allowPass;
+
     [HideInInspector] public List<float> speeds = new List<float>();
 
     private float currentSteerAngle;
@@ -38,7 +42,6 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform frontRightWheeTransform;
     [SerializeField] private Transform rearLeftWheelTransform;
     [SerializeField] private Transform rearRightWheelTransform;
-     
     private void Awake()
     {
         wheelColliders = new WheelCollider[4] { frontLeftWheelCollider, frontRightWheelCollider, rearLeftWheelCollider, rearRightWheelCollider };
