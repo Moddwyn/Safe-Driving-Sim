@@ -5,8 +5,8 @@ using UnityEngine;
 public class StopSignRoutine : MonoBehaviour
 {
     public List<RoutinePattern> pattern = new List<RoutinePattern>();
-    public float durationOnStop = 2;
-    public float durationOnGo = 0.5f;
+    public float durationOnSwitch = 2;
+    public float durationOnGo = 2;
 
 
     void Start()
@@ -27,7 +27,7 @@ public class StopSignRoutine : MonoBehaviour
                 foreach (var go in goSigns) go.stop = false;
                 yield return new WaitForSeconds(durationOnGo);
                 foreach (var go in goSigns) go.stop = true;
-                yield return new WaitForSeconds(durationOnStop);
+                yield return new WaitForSeconds(durationOnSwitch);
             }
 
             yield return null;

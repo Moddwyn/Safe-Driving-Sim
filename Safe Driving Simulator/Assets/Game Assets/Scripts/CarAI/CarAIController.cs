@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
@@ -52,11 +53,12 @@ public class CarAIController : MonoBehaviour
     {
         roadManager = RoadManager.Instance;
         rb = GetComponent<Rigidbody>();
-        CalculatePath();
+        StartCoroutine(CalculatePath());
     }
 
-    public void CalculatePath()
+    IEnumerator CalculatePath()
     {
+        while(pathFinder.roadManager == null) yield return null;
         if(pathFinder != null)
         {
             pathFinder.start = FindClosestNode(transform);

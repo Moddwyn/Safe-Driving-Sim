@@ -118,7 +118,10 @@ public class Node : MonoBehaviour
                 if (connected == null) continue;
 
                 Color lineColor = connected.GetRouteID() == GetRouteID() ? route.defaultLineColor : Color.white;
-                GizmoDrawLine(transform.position, connected.transform.position, lineColor, "", Color.white);
+
+                Gizmos.color = lineColor;
+                Gizmos.DrawLine(transform.position, connected.transform.position);
+                //GizmoDrawLine(transform.position, connected.transform.position, lineColor, "", Color.white);
             }
         }
     }

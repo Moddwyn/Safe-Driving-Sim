@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PathFinder : MonoBehaviour
 {
-    RoadManager roadManager;
+    [HideInInspector] public RoadManager roadManager;
 
     [ReadOnly] public List<Node> bestPath = new List<Node>();
     [HorizontalLine]
@@ -14,7 +14,7 @@ public class PathFinder : MonoBehaviour
     public Node end;
     public Color debugColor = Color.yellow;
 
-    void Awake() {
+    void Start() {
         roadManager = RoadManager.Instance;
     }
     
