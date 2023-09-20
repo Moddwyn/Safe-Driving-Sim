@@ -55,6 +55,7 @@ public class RoadManager : MonoBehaviour
         if (waypointNodes.Count == 0) return;
         foreach (var waypoint in waypointNodes)
         {
+            if(waypoint != null)
             Gizmos.DrawIcon(waypoint.transform.position + (Vector3.up * 2), "Waypoint.png", true);
         }
     }

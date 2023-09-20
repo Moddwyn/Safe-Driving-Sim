@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class StopSignDetector : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [HideInInspector] public StopSignRoutine routine;
+    public StopSign stopSign;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    void OnTriggerEnter(Collider other) {
+        if(routine != null && other.GetComponent<CarAIController>() != null)
+        {
+            routine.stopSignQueue.Enqueue(stopSign);
+            stopSign.stop = true;
+        }
     }
 }

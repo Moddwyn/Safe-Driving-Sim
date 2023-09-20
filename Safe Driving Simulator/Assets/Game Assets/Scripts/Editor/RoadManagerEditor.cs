@@ -123,17 +123,11 @@ public class RoadManagerEditor : UnityEditor.Editor
     {
         if (index >= 0 && index < waypointNodesProp.arraySize)
         {
-            SerializedProperty waypointProperty = waypointNodesProp.GetArrayElementAtIndex(index);
-            Node node = waypointProperty.objectReferenceValue as Node;
+            // Remove the node from the list
+            waypointNodesProp.DeleteArrayElementAtIndex(index);
 
-            if (node != null)
-            {
-                // Remove the node from the list
-                waypointNodesProp.DeleteArrayElementAtIndex(index);
-
-                // Apply the changes
-                serializedObject.ApplyModifiedProperties();
-            }
+            // Apply the changes
+            serializedObject.ApplyModifiedProperties();
         }
     }
     
@@ -149,10 +143,10 @@ public class RoadManagerEditor : UnityEditor.Editor
 
             if (e.type == EventType.MouseDown && e.button == 0 && Physics.Raycast(ray, out hit))
             {
-                Node endNode = hit.collider.GetComponent<Node>();
+                Node clickedNode = hit.collider.GetComponent<Node>();
 
-                if(!cachedRoad.waypointNodes.Contains(endNode))
-                    cachedRoad.waypointNodes.Add(endNode);
+                if(!cachedRoad.waypointNodes.Contains(clickedNode) && clickedNode != null)
+                    cachedRoad.waypointNodes.Add(clickedNode);
             }
 
             if (e.type == EventType.KeyUp && e.keyCode == KeyCode.Escape)

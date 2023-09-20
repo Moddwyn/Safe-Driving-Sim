@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using NaughtyAttributes;
+using UnityEditor;
 using UnityEngine;
 
 public class PathFinder : MonoBehaviour
@@ -12,15 +14,16 @@ public class PathFinder : MonoBehaviour
     [HorizontalLine]
     public Node start;
     public Node end;
-    public Color debugColor = Color.yellow;
+    public Color debugColor = Color.green;
 
-    void Start() {
+    void Start()
+    {
         roadManager = RoadManager.Instance;
     }
-    
+
     public void GetNextNewPath(Node startingPath, Action<List<Node>> OnFinish)
     {
-        if(startingPath != null)
+        if (startingPath != null)
         {
             start = startingPath;
             end = roadManager.GetRandomWaypoint(start);
@@ -32,13 +35,9 @@ public class PathFinder : MonoBehaviour
 #if UNITY_EDITOR
     void OnDrawGizmos()
     {
-        if (bestPath == null || bestPath.Count == 0 || start == null || end == null) return;
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(start.transform.position, 1);
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(end.transform.position, 1);
-
+        if (bestPath == null || bestPath.Count == 0 || start == null || end == null 
+        || (GetComponent<CarAIController>() != null && Selection.transforms.Any(x => x.gameObject != gameObject))
+        || Selection.transforms.Length == 0) return;
         Gizmos.color = debugColor;
         for (int i = 0; i < bestPath.Count - 1; i++)
         {
@@ -49,6 +48,14 @@ public class PathFinder : MonoBehaviour
             {
                 Gizmos.DrawLine(currentNode.transform.position, nextNode.transform.position);
             }
+        }
+
+        if (Selection.transforms.Any(x => x.gameObject == gameObject))
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(start.transform.position, 1);
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(end.transform.position, 1);
         }
     }
 #endif

@@ -39,8 +39,7 @@ public class TrafficLight : MonoBehaviour
         pedestIndicator.sharedMaterial = trafficColor == LightColor.Green? goWalk : stopWalk;
         
         if(stopNode != null) 
-        stopNode.nodeType = trafficColor == LightColor.Red ||
-        trafficColor == LightColor.Yellow? Node.NodeType.Stop : Node.NodeType.None;
+        stopNode.nodeType = trafficColor == LightColor.Red? Node.NodeType.Stop : Node.NodeType.None;
     }
 
     public void Green() => trafficColor = LightColor.Green;
