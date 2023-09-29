@@ -592,6 +592,7 @@ MonoBehaviour:
   - {fileID: 2336147880644566346}
   longCollider: {fileID: 4490180482654518463}
   closeCollider: {fileID: 4490180481852253461}
+  printLog: 0
   currentNodeIndex: 0
   currentNode: {fileID: 0}
   nextNodeStart: {fileID: 0}
@@ -602,6 +603,7 @@ MonoBehaviour:
   maxVelCurr: 0
   currentSpeed: 0
   collidersInFront: []
+  colliderBeingUsed: {fileID: 0}
   frontCollision: 0
 --- !u!114 &3580122966622479117
 MonoBehaviour:
@@ -615,10 +617,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38d155c6abdcce84a8ba45f70d4cb810, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roadManager: {fileID: 0}
   bestPath: []
   start: {fileID: 0}
   end: {fileID: 0}
   debugColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  hideAllNodes: 0
 --- !u!1 &2336147879731849682
 GameObject:
   m_ObjectHideFlags: 0
@@ -1030,7 +1034,7 @@ Transform:
   m_GameObject: {fileID: 4490180481852253463}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.50722, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1656226583737008253}
@@ -1075,7 +1079,7 @@ Transform:
   m_GameObject: {fileID: 4490180482654518456}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.50722, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1656226583737008253}

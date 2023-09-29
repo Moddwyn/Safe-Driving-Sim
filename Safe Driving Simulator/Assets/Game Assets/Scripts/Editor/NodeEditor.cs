@@ -6,16 +6,20 @@ using UnityEngine;
 public class NodeEditor : Editor
 {
     private int selectedTabIndex;
+    private int selectedTabIndex1;
     private bool isConnecting;
     private Node startNode;
 
     private SerializedProperty nodeTypeProperty;
+    private SerializedProperty stopTypeProperty;
     private SerializedProperty layerMask;
 
     private void OnEnable()
     {
         selectedTabIndex = ((Node)target).nodeType == Node.NodeType.None ? 0 : 1;
+        selectedTabIndex1 = ((Node)target).stopType == Node.StopType.None ? 0 : 1;
         nodeTypeProperty = serializedObject.FindProperty("nodeType");
+        stopTypeProperty = serializedObject.FindProperty("stopType");
         layerMask = serializedObject.FindProperty("carMask");
     }
 
@@ -89,6 +93,40 @@ public class NodeEditor : Editor
         {
             selectedTabIndex = 1;
             nodeTypeProperty.enumValueIndex = (int)Node.NodeType.Stop;
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        GUILayout.EndHorizontal();
+
+        GUILayout.BeginHorizontal();
+
+        GUIStyle noneStopStyle = new GUIStyle(GUI.skin.button);
+        GUIStyle violationStyle = new GUIStyle(GUI.skin.button);
+
+        if (selectedTabIndex1 == 0)
+        {
+            noneStopStyle.normal.textColor = Color.white;
+            noneStopStyle.normal.background = MakeTex(2, 2, new Color(0.2f, 0.5f, 0.2f, 1f));
+            violationStyle.normal.background = null;
+        }
+        else if (selectedTabIndex1 == 1)
+        {
+            violationStyle.normal.textColor = Color.white;
+            violationStyle.normal.background = MakeTex(2, 2, new Color(0.5f, 0.2f, 0.2f, 1f));
+            noneStopStyle.normal.background = null;
+        }
+
+        if (GUILayout.Button("None", noneStopStyle))
+        {
+            selectedTabIndex1 = 0;
+            stopTypeProperty.enumValueIndex = (int)Node.StopType.None;
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        if (GUILayout.Button("Violation", violationStyle))
+        {
+            selectedTabIndex1 = 1;
+            stopTypeProperty.enumValueIndex = (int)Node.StopType.Violation;
             serializedObject.ApplyModifiedProperties();
         }
 

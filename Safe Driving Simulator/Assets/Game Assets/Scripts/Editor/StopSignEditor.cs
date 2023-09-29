@@ -18,6 +18,7 @@ public class StopSignEditor : Editor
         DrawDefaultInspector();
 
         GUILayout.Space(20);
+        if(GUILayout.Button("Auto Find Stop Node")) cachedSign.AutoFindStopNode();
         ConnectStopNodeButton();
 
         serializedObject.ApplyModifiedProperties();

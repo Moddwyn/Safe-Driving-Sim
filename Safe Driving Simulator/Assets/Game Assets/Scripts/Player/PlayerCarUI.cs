@@ -10,12 +10,19 @@ public class PlayerCarUI : MonoBehaviour
     [ReadOnly] public float timer;
     [ReadOnly] public bool startTimer;
     public TMP_Text timeText;
+    public TMP_Text timeTextWin;
 
     [HorizontalLine]
     public TMP_Text causeText;
     public TMP_Text speedText;
     public TMP_Text averageSpeedText;
+    public TMP_Text averageSpeedTextWin;
+    public TMP_Text speedLimitText;
     [ReadOnly] public string cause;
+
+    [HorizontalLine]
+    public RectTransform directionArrow;
+    public Transform target;
 
     PlayerCar player;
 
@@ -29,16 +36,31 @@ public class PlayerCarUI : MonoBehaviour
         speedText.text = (int)player.currentSpeed + " MPH";
         UpdateFailUI();
         UpdateTimer();
+        UpdateDirectionArrow();
     }
-
+    
+    void UpdateDirectionArrow()
+    {
+        if (target != null)
+        {
+            Vector3 directionToTarget = target.position - transform.position;
+            float angleToTarget = Vector3.SignedAngle(transform.forward, directionToTarget, Vector3.up);
+            directionArrow.rotation = Quaternion.Euler(0, 0, -angleToTarget);
+        }
+    }
+    
     void UpdateFailUI()
     {
         TimeSpan t = TimeSpan.FromSeconds(timer);
         string minutes = t.Minutes < 10 ? "0" + t.Minutes : t.Minutes.ToString();
         string seconds = t.Seconds < 10 ? "0" + t.Seconds : t.Seconds.ToString();
         timeText.text = "Time: " + minutes + ":" + seconds;
+        timeTextWin.text = "Time: " + minutes + ":" + seconds;
 
-        averageSpeedText.text = "Average Speed: " + (player.speedList.Any() ? player.speedList.Average() : 0) + " mph";
+
+        averageSpeedText.text = "Average Speed: " + (player.speedList.Any() ? player.speedList.Average() : 0).ToString("F2") + " mph";
+        averageSpeedTextWin.text = "Average Speed: " + (player.speedList.Any() ? player.speedList.Average() : 0).ToString("F2") + " mph";
+        causeText.text = "Cause: " + cause;
     }
 
     void UpdateTimer()
@@ -62,5 +84,12 @@ public class PlayerCarUI : MonoBehaviour
     public void ResetTimer()
     {
         timer = 0;
+    }
+
+    void OnTriggerEnter(Collider other) {
+        if(other.TryGetComponent<Node>(out Node node))
+        {
+            if(node.route != null) speedLimitText.text = node.route.maxMPH+"";
+        }
     }
 }

@@ -16,6 +16,7 @@ public class Route : MonoBehaviour
     void OnValidate()
     {
         GenerateRandomID();
+        nodes.RemoveAll(x=>x == null);
     }
 
     void Start()

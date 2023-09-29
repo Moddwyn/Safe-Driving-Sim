@@ -15,6 +15,7 @@ public class PathFinder : MonoBehaviour
     public Node start;
     public Node end;
     public Color debugColor = Color.green;
+    public bool hideAllNodes;
 
     void Start()
     {

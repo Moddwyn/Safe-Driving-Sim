@@ -8,7 +8,7 @@ public class StopSignDetector : MonoBehaviour
     public StopSign stopSign;
 
     void OnTriggerEnter(Collider other) {
-        if(routine != null && other.GetComponent<CarAIController>() != null)
+        if(routine != null && (other.GetComponent<CarAIController>() != null || other.GetComponent<PlayerCar>() != null))
         {
             routine.stopSignQueue.Enqueue(stopSign);
             stopSign.stop = true;

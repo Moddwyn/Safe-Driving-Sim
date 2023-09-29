@@ -96,6 +96,7 @@ public class PathFinderEditor : Editor
         DrawHorizontalLine();
 
         pathFinder.debugColor = EditorGUILayout.ColorField("Debug Color", pathFinder.debugColor);
+        pathFinder.hideAllNodes = EditorGUILayout.Toggle("Hide All Nodes", pathFinder.hideAllNodes);
 
         GUILayout.Space(20);
         if (GUILayout.Button("Calulcate Path")) pathFinder.AutoCalculate(null);

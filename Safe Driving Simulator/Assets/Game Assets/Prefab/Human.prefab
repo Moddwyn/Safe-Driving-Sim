@@ -1031,6 +1031,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6029293026142714734}
   - component: {fileID: 7722917142991855689}
+  - component: {fileID: -270667904094960252}
   m_Layer: 7
   m_Name: Human
   m_TagString: Collision
@@ -1076,6 +1077,28 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 0
+--- !u!114 &-270667904094960252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3409561761838772553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ff0b0c0dab62fb4daa1b80df9746414, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speedRange: {x: 0.8, y: 2}
+  idleTimeRange: {x: 3, y: 8}
+  animSpeedMult: {x: 0.7, y: 1}
+  maxAttempts: 30
+  maxDistance: 100
+  agent: {fileID: 7722917142991855689}
+  animator: {fileID: 2229429901613295474}
+  isIdling: 0
+  isWaiting: 0
+  onCrossWalk: 0
 --- !u!1 &3455875152584066923
 GameObject:
   m_ObjectHideFlags: 0

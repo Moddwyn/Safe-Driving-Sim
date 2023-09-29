@@ -81,21 +81,7 @@ public class RouteEditor : Editor
         {
             if (GUILayout.Button("Add Car"))
             {
-                int newIndex = carsProperty.arraySize;
-                carsProperty.arraySize++;
-                if (newIndex > 0)
-                {
-                    SerializedProperty previousCar = carsProperty.GetArrayElementAtIndex(newIndex - 1);
-                    SerializedProperty newCar = carsProperty.GetArrayElementAtIndex(newIndex);
-                    newCar.objectReferenceValue = previousCar.objectReferenceValue;
-                } else
-                {
-                    SerializedProperty newCar = carsProperty.GetArrayElementAtIndex(newIndex);
-                    if(trafficManagerWindow.carPrefabs.Count > 0)
-                        newCar.objectReferenceValue = trafficManagerWindow.carPrefabs[Random.Range(0, trafficManagerWindow.carPrefabs.Count)];
-                    else
-                        Debug.LogWarning("Please add car prefabs to the Traffic Manager window");
-                }
+                AddCar();
             }
         }
 
@@ -293,5 +279,24 @@ public class RouteEditor : Editor
         }
 
         route.nodes.Clear();
+    }
+
+    public void AddCar()
+    {
+        int newIndex = carsProperty.arraySize;
+        carsProperty.arraySize++;
+        if (newIndex > 0)
+        {
+            SerializedProperty previousCar = carsProperty.GetArrayElementAtIndex(newIndex - 1);
+            SerializedProperty newCar = carsProperty.GetArrayElementAtIndex(newIndex);
+            newCar.objectReferenceValue = previousCar.objectReferenceValue;
+        } else
+        {
+            SerializedProperty newCar = carsProperty.GetArrayElementAtIndex(newIndex);
+            if(trafficManagerWindow.carPrefabs.Count > 0)
+                newCar.objectReferenceValue = trafficManagerWindow.carPrefabs[Random.Range(0, trafficManagerWindow.carPrefabs.Count)];
+            else
+                Debug.LogWarning("Please add car prefabs to the Traffic Manager window");
+        }
     }
 }

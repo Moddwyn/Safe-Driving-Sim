@@ -11,6 +11,12 @@ public class PedestrianManager : MonoBehaviour
 
     bool toggleOnAreas;
 
+    public static PedestrianManager Instance;
+
+    void Awake() {
+        Instance = this;
+    }
+
     void Start()
     {
         Spawn();

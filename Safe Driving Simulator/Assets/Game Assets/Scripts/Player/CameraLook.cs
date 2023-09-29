@@ -9,9 +9,15 @@ public class CameraLook : MonoBehaviour
     Vector2 currentMouseLook;
     Vector2 appliedMouseDelta;
 
-    void Start() {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+    void Start()
+    {
+        LockCursor(true);
+    }
+
+    public void LockCursor(bool locked)
+    {
+        Cursor.lockState = locked ? CursorLockMode.Locked : CursorLockMode.None;
+        Cursor.visible = !locked;
     }
 
     void Update()

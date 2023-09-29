@@ -15,6 +15,10 @@ public class StopSignRoutine : MonoBehaviour
     public float durationOnSwitch = 2;
     public float durationOnGo = 2;
 
+    [HorizontalLine]
+    [ReadOnly] public bool carInIntersection;
+    [ReadOnly] public Collider[] collidersInIntersection;
+
     void Awake() {
         foreach (var detector in GetComponentsInChildren<StopSignDetector>())
         {
@@ -31,19 +35,28 @@ public class StopSignRoutine : MonoBehaviour
         queueList = stopSignQueue.ToList();
     }
 
+    [Button("Auto Connect All Stop Nodes")]
+    public void AutoConnectStopNodes()
+    {
+        foreach (var sign in GetComponentsInChildren<StopSign>())
+        {
+            sign.AutoFindStopNode();
+        }
+    }
+
     IEnumerator StartPattern()
     {
         while (true)
         {
             if(stopSignQueue.Count > 0)
             {
-                Collider[] colliders = null;
-                bool carInIntersection = true;
+                collidersInIntersection = null;
+                carInIntersection = true;
 
                 while(carInIntersection)
                 {
-                    colliders = Physics.OverlapBox(carCheckBounds.bounds.center, carCheckBounds.bounds.extents, Quaternion.identity);
-                    carInIntersection = colliders.Any(collider => collider.GetComponent<CarAIController>() != null);
+                    collidersInIntersection = Physics.OverlapBox(carCheckBounds.bounds.center, carCheckBounds.bounds.extents, Quaternion.identity);
+                    carInIntersection = collidersInIntersection.Any(collider => collider.GetComponent<CarAIController>() != null || collider.GetComponent<PlayerCar>() != null);
                     yield return null;
                 }
 

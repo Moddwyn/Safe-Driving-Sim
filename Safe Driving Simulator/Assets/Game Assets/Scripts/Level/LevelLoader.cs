@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelLoader : MonoBehaviour
 {
@@ -24,5 +25,10 @@ public class LevelLoader : MonoBehaviour
         {
             levelLoaderImage.gameObject.SetActive(show);
         });
+    }
+
+    public void RestartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

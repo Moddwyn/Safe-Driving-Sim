@@ -18,6 +18,7 @@ public class Node : MonoBehaviour
     public List<CarAIController> carsInRadius;
 
     public NodeType nodeType;
+    public StopType stopType;
 
     RoadManager manager;
     Color nodeColor = Color.white;
@@ -25,6 +26,10 @@ public class Node : MonoBehaviour
     public enum NodeType
     {
         None, Stop
+    }
+    public enum StopType
+    {
+        None, Violation
     }
 
     void Awake()
@@ -103,7 +108,7 @@ public class Node : MonoBehaviour
         nodeColor = nodeType == NodeType.Stop? Color.red : nodeColor;
         if (Selection.transforms.Any(x=>x.GetComponent<Route>() != null 
         || x.GetComponent<Node>() != null 
-        || (x.GetComponent<PathFinder>() != null && x.GetComponent<CarAIController>() == null) 
+        || (x.GetComponent<PathFinder>() != null && !x.GetComponent<PathFinder>().hideAllNodes && x.GetComponent<CarAIController>() == null) 
         || x.GetComponent<RoadManager>() != null
         || x.GetComponent<TrafficLight>() != null
         || x.GetComponent<StopSign>() != null

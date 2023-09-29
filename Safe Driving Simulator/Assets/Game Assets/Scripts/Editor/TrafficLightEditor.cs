@@ -18,6 +18,7 @@ public class TrafficLightEditor : Editor
         DrawDefaultInspector();
 
         GUILayout.Space(20);
+        if(GUILayout.Button("Auto Find Stop Node")) cachedLight.AutoFindStopNode();
         ConnectStopNodeButton();
 
         serializedObject.ApplyModifiedProperties();

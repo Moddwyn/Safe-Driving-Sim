@@ -36,18 +36,44 @@ public class PlayerCar : MonoBehaviour
     [ReadOnly] public float currentbreakForce;
     [ReadOnly] public List<float> speedList = new List<float>();
 
+    bool canDrive;
+
+    public static PlayerCar Instance;
+
 
     void Awake()
     {
+        Instance = this;
+        
+        canDrive = true;
+
         wheelColliders = new WheelCollider[4] { frontLeftWheelCollider, frontRightWheelCollider, rearLeftWheelCollider, rearRightWheelCollider };
     }
 
     void FixedUpdate()
     {
         currentSpeed = CalculateSpeed();
-        GetInput();
-        HandleMotor();
-        HandleSteering();
+        if (canDrive)
+        {
+            GetInput();
+            HandleMotor();
+            HandleSteering();
+        }
+        else
+        {
+            horizontalInput = 0;
+            verticalInput = 0;
+
+            frontLeftWheelCollider.motorTorque = 0;
+            frontRightWheelCollider.motorTorque = 0;
+            rearLeftWheelCollider.motorTorque = 0;
+            rearRightWheelCollider.motorTorque = 0;
+
+            frontRightWheelCollider.brakeTorque = float.MaxValue;
+            frontLeftWheelCollider.brakeTorque = float.MaxValue;
+            rearLeftWheelCollider.brakeTorque = float.MaxValue;
+            rearRightWheelCollider.brakeTorque = float.MaxValue;
+        }
         UpdateWheels();
         UpdateAverageSpeed();
     }
@@ -127,4 +153,8 @@ public class PlayerCar : MonoBehaviour
         return Mathf.Abs(speedMPH);
     }
 
+    public void StopDriving()
+    {
+        canDrive = false;
+    }
 }

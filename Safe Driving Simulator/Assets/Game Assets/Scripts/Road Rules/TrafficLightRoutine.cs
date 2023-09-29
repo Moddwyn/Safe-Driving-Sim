@@ -42,6 +42,15 @@ public class TrafficLightRoutine : MonoBehaviour
         
     }
 
+    [Button("Auto Connect All Stop Nodes")]
+    public void AutoConnectStopNodes()
+    {
+        foreach (var light in GetComponentsInChildren<TrafficLight>())
+        {
+            light.AutoFindStopNode();
+        }
+    }
+
     [System.Serializable]
     public class RoutinePattern
     {

@@ -243,7 +243,8 @@ public class CarAIController : MonoBehaviour
         colliderBeingUsed = collider;
         Bounds colliderBounds = collider.bounds;
         collidersInFront = Physics.OverlapBox(colliderBounds.center, colliderBounds.extents)
-                            .Where(x=>x.GetComponent<CarAIController>() != null || x.GetComponent<PlayerCar>() != null)
+                            .Where(x=>x.GetComponent<CarAIController>() != null || x.GetComponent<PlayerCar>() != null 
+                            || x.transform.root.GetComponent<Pedestrian>() != null)
                             .Where(x=>x.GetComponent<CarAIController>() != this)
                             .Where(x=>x.transform.root.GetComponent<CarAIController>() != this)
                             .Where(x=>x.CompareTag(tag)).ToArray();
