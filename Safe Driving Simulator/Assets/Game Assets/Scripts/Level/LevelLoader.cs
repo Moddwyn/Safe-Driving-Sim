@@ -1,34 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LevelLoader : MonoBehaviour
 {
-    public CanvasGroup levelLoaderImage;
+    private Animator animator;
 
-    void Start()
+    private void Awake()
     {
-        ShowLoaderImage(false);
+        animator = GetComponent<Animator>();
     }
 
-    public void ShowLoaderImage(bool show)
+    public void LoadLevel(string name)
     {
-        levelLoaderImage.gameObject.SetActive(true);
-        levelLoaderImage.alpha = show ? 0 : 1;
-
-        DOVirtual.Float(levelLoaderImage.alpha, show ? 1 : 0, 5, newAlpha =>
-        {
-            levelLoaderImage.alpha = newAlpha;
-        }).SetEase(Ease.InSine).OnComplete(() =>
-        {
-            levelLoaderImage.gameObject.SetActive(show);
-        });
+        StartCoroutine(LoadLevelWithTransition(name));
     }
 
-    public void RestartLevel()
+    private IEnumerator LoadLevelWithTransition(string name)
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        animator.SetTrigger("End");
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene(name);
     }
+
 }

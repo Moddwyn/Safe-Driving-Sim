@@ -40,8 +40,7 @@ public class PlayerCar : MonoBehaviour
 
     public static PlayerCar Instance;
 
-
-    void Awake()
+    private void Awake()
     {
         Instance = this;
         
@@ -50,7 +49,12 @@ public class PlayerCar : MonoBehaviour
         wheelColliders = new WheelCollider[4] { frontLeftWheelCollider, frontRightWheelCollider, rearLeftWheelCollider, rearRightWheelCollider };
     }
 
-    void FixedUpdate()
+    private void Update()
+    {
+
+    }
+
+    private void FixedUpdate()
     {
         currentSpeed = CalculateSpeed();
         if (canDrive)

@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class PedestrianManager : MonoBehaviour
 {
-    public GameObject pedestrianPrefab;
+    public GameObject[] pedestrianPrefabs;
     public int maxPedestrian = 20;
 
     bool toggleOnAreas;
@@ -26,7 +26,7 @@ public class PedestrianManager : MonoBehaviour
     {
         for (int i = 0; i < maxPedestrian; i++)
         {
-            Instantiate(pedestrianPrefab, GetRandomPointOnNavMesh(30, 100), Quaternion.identity);
+            Instantiate(pedestrianPrefabs[Random.Range(0, pedestrianPrefabs.Length)], GetRandomPointOnNavMesh(30, 100), Quaternion.identity);
         }
     }
 

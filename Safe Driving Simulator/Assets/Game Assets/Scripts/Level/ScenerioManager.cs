@@ -11,8 +11,9 @@ public class ScenerioManager : MonoBehaviour
     public Transform endNodeParticle;
     [ReadOnly] public Node endNode;
     [ReadOnly] public bool hasReachedEnd;
+    public static string scenario;
 
-    void Start() {
+    private void Start() {
         StartScenerio("Neighborhood Safety");
     }
 
@@ -30,14 +31,6 @@ public class ScenerioManager : MonoBehaviour
                 player.transform.rotation = Quaternion.Euler(0, s.angleStart, 0);
                 player.GetComponent<PlayerCarUI>().target = endNode.transform;
             }
-        }
-    }
-
-    void OnTriggerEnter(Collider other) {
-        if(!hasReachedEnd && endNode != null && other.GetComponent<Node>() == endNode)
-        {
-            hasReachedEnd = true;
-            OnReachEnd?.Invoke();
         }
     }
 

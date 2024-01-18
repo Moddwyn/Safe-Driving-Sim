@@ -22,6 +22,12 @@ public class CameraLook : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            LockCursor(false);
+        }
+        if (Input.GetMouseButtonDown(0)) {
+            LockCursor(true);
+        }
         Look();
     }
 

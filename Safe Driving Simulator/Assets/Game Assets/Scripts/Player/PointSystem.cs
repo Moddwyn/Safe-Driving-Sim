@@ -16,9 +16,12 @@ public class PointSystem : MonoBehaviour
     [HorizontalLine]
     public PlayerCarUI carUI;
 
+    private ScenerioManager scenerioManager;
+
     void Start()
     {
         carUI.StartResumeTimer();
+        scenerioManager = FindObjectOfType<ScenerioManager>();
     }
 
     void Update()
@@ -51,6 +54,12 @@ public class PointSystem : MonoBehaviour
                     points -= stoppedViolation;
                 }
             }
+        }
+
+        if (!scenerioManager.hasReachedEnd && scenerioManager.endNode != null && other.GetComponent<Node>() == scenerioManager.endNode)
+        {
+            scenerioManager.hasReachedEnd = true;
+            scenerioManager.OnReachEnd?.Invoke();
         }
     }
 
