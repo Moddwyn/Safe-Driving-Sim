@@ -33,6 +33,16 @@ public class StopSignRoutine : MonoBehaviour
 
     void Update() {
         queueList = stopSignQueue.ToList();
+
+        UpdateCollidersInIntersection();
+    }
+
+    public void UpdateCollidersInIntersection()
+    {
+        collidersInIntersection = Physics.OverlapBox(carCheckBounds.bounds.center, carCheckBounds.bounds.extents, Quaternion.identity);
+        collidersInIntersection = collidersInIntersection.Where(cars => cars.GetComponent<CarAIController>() != null || cars.GetComponent<PlayerCar>() != null).ToArray();
+        if(collidersInIntersection != null)
+                        carInIntersection = collidersInIntersection.Any(collider => collider.GetComponent<CarAIController>() != null || collider.GetComponent<PlayerCar>() != null);
     }
 
     [Button("Auto Connect All Stop Nodes")]
@@ -51,17 +61,20 @@ public class StopSignRoutine : MonoBehaviour
             if(stopSignQueue.Count > 0)
             {
                 collidersInIntersection = null;
-                carInIntersection = true;
 
                 while(carInIntersection)
                 {
-                    collidersInIntersection = Physics.OverlapBox(carCheckBounds.bounds.center, carCheckBounds.bounds.extents, Quaternion.identity);
-                    carInIntersection = collidersInIntersection.Any(collider => collider.GetComponent<CarAIController>() != null || collider.GetComponent<PlayerCar>() != null);
                     yield return null;
                 }
 
                 yield return new WaitForSeconds(durationOnSwitch);
                 StopSign lastGreenStop = null;
+                
+                List<GameObject> enteredColliders = stopSignQueue.Peek().GetComponentInChildren<StopSignDetector>().enteredColliders;
+                while(enteredColliders.Count > 0 && enteredColliders[0] == PlayerCar.Instance.gameObject)
+                {
+                    yield return null;
+                }
 
                 StopSign nextGreen = stopSignQueue.Dequeue();
                 foreach (var sign in stopSigns)

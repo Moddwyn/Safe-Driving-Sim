@@ -19,6 +19,7 @@ public class PlayerCarUI : MonoBehaviour
     public TMP_Text averageSpeedText;
     public TMP_Text averageSpeedTextWin;
     public TMP_Text speedLimitText;
+    public TMP_Text gamePointsText;
     [ReadOnly] public string cause;
 
     [HorizontalLine]
@@ -37,7 +38,8 @@ public class PlayerCarUI : MonoBehaviour
     void Update()
     {
         speedText.text = (int)player.currentSpeed + " MPH";
-        pointText.text = pointSystem.points.ToString();
+        pointText.text = "Points: " + pointSystem.points.ToString();
+        gamePointsText.text = "Points: " + pointSystem.points.ToString();
         UpdateFailUI();
         UpdateTimer();
         UpdateDirectionArrow();
