@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 8456877124769547781}
   - component: {fileID: 1588479949302181065}
   - component: {fileID: 1572965436230943531}
+  - component: {fileID: 5593773223423432823}
   m_Layer: 0
   m_Name: guingamp 1_Guincamp 1_0
   m_TagString: Untagged
@@ -115,6 +116,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5593773223423432823
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3507370359227327394}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 693.40405, y: 1472.3318, z: 654.3986}
+  m_Center: {x: -53.283325, y: 736.1659, z: -12.8048}
 --- !u!1 &3512627415205630029
 GameObject:
   m_ObjectHideFlags: 0

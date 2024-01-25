@@ -13,7 +13,8 @@ public class ScenerioManager : MonoBehaviour
     [ReadOnly] public bool hasReachedEnd;
     public static string scenario;
 
-    private void Start() {
+    [Button]
+    void ChangeScenario() {
         StartScenerio("Neighborhood Safety");
     }
 
@@ -30,6 +31,8 @@ public class ScenerioManager : MonoBehaviour
                 endNodeParticle.transform.position = endNode.transform.position;
                 player.transform.rotation = Quaternion.Euler(0, s.angleStart, 0);
                 player.GetComponent<PlayerCarUI>().target = endNode.transform;
+
+                s.OnSwitch?.Invoke();
             }
         }
     }
@@ -41,5 +44,6 @@ public class ScenerioManager : MonoBehaviour
         public Node start;
         public Node end;
         public float angleStart = 90;
+        public UnityEvent OnSwitch;
     }
 }

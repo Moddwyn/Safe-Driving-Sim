@@ -14,8 +14,11 @@ public class PointSystem : MonoBehaviour
     [HorizontalLine]
     public int stoppedViolation = 10;
     public int outOfLaneViolation = 1;
+    public float rotationMaxFail = 15;
+    [HorizontalLine]
     [ReadOnly] public bool canGoThroughStop;
     [ReadOnly] public bool outOfLane;
+    [ReadOnly] public bool failed;
 
     [HorizontalLine]
     public PlayerCarUI carUI;
@@ -42,13 +45,30 @@ public class PointSystem : MonoBehaviour
 
     void Update()
     {
-        if (points <= 0)
+        if (points <= 0 && !failed)
         {
+            failed = true;
             carUI.cause = "Too many unsafe maneuvers";
             OnFail?.Invoke();
         }
 
+        Vector3 eulerRot = transform.rotation.eulerAngles;
+        eulerRot = new Vector3(NormalAngle(eulerRot.x), NormalAngle(eulerRot.y), NormalAngle(eulerRot.z));
+        if(Mathf.Abs(eulerRot.z) >= rotationMaxFail & !failed)
+        {
+            failed = true;
+            carUI.cause = "Flipped Over";
+            OnFail?.Invoke();
+        }
+
         CheckRoad();
+    }
+
+    float NormalAngle(float angle)
+    {
+        while(angle > 180) angle -= 360;
+        while(angle < -180) angle += 360;
+        return angle;
     }
 
     void CheckRoad()
@@ -77,8 +97,9 @@ public class PointSystem : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        if (other.transform.CompareTag("Collision") && other.transform != transform)
+        if (other.transform.CompareTag("Collision") && other.transform != transform && !failed)
         {
+            failed = true;
             if (other.transform.root.GetComponent<NavMeshAgent>()) carUI.cause = "Hit a pedestrian";
             else if (other.transform.root.GetComponent<CarAIController>()) carUI.cause = "Hit/Been hit by another car";
             else carUI.cause = "Hit an object";
