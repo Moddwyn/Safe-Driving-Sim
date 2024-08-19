@@ -160,5 +160,10 @@ public class PlayerCar : MonoBehaviour
     public void StopDriving()
     {
         canDrive = false;
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
+    }
+
+    public void StartDriving() {
+        canDrive = true;
     }
 }

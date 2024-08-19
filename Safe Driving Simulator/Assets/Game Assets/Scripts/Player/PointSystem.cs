@@ -11,13 +11,21 @@ public class PointSystem : MonoBehaviour
 {
     public UnityEvent OnFail;
     public int points = 100;
+
     [HorizontalLine]
     public int stoppedViolation = 10;
     public int outOfLaneViolation = 1;
+    public float outOfLaneViolationDelay = 0.25f;
+    public int speedingViolation = 1;
+    public float speedingViolationDelay = 0.25f;
     public float rotationMaxFail = 15;
+    private int currentSpeedLimit;
+
     [HorizontalLine]
     [ReadOnly] public bool canGoThroughStop;
+    [ReadOnly] public bool centered;
     [ReadOnly] public bool outOfLane;
+    [ReadOnly] public bool speeding;
     [ReadOnly] public bool failed;
 
     [HorizontalLine]
@@ -26,20 +34,24 @@ public class PointSystem : MonoBehaviour
     [HorizontalLine]
     [ReadOnly] public Road currentRoad;
 
+    private PlayerCar player;
     private ScenerioManager scenerioManager;
 
     public static PointSystem Instance;
 
+
     void Awake()
     {
         Instance = this;
+        player = GetComponent<PlayerCar>();
+        scenerioManager = FindObjectOfType<ScenerioManager>();
     }
 
     void Start()
     {
         carUI.StartResumeTimer();
-        scenerioManager = FindObjectOfType<ScenerioManager>();
-
+        
+        StartCoroutine(CheckSpeeding());
         StartCoroutine(CheckOutOfLane());
     }
 
@@ -51,10 +63,10 @@ public class PointSystem : MonoBehaviour
             carUI.cause = "Too many unsafe maneuvers";
             OnFail?.Invoke();
         }
-
+        
         Vector3 eulerRot = transform.rotation.eulerAngles;
         eulerRot = new Vector3(NormalAngle(eulerRot.x), NormalAngle(eulerRot.y), NormalAngle(eulerRot.z));
-        if(Mathf.Abs(eulerRot.z) >= rotationMaxFail & !failed)
+        if (Mathf.Abs(eulerRot.z) >= rotationMaxFail & !failed)
         {
             failed = true;
             carUI.cause = "Flipped Over";
@@ -64,11 +76,24 @@ public class PointSystem : MonoBehaviour
         CheckRoad();
     }
 
+    public void ResetPoints() {
+        scenerioManager.hasReachedEnd = false;
+        points = 100;
+    }
+
+
     float NormalAngle(float angle)
     {
         while(angle > 180) angle -= 360;
         while(angle < -180) angle += 360;
         return angle;
+    }
+
+    private IEnumerator CheckSpeeding() {
+        yield return new WaitForSeconds(speedingViolationDelay);
+        speeding = player.currentSpeed > currentSpeedLimit;
+        if (speeding) points -= speedingViolation;
+        StartCoroutine(CheckSpeeding());
     }
 
     void CheckRoad()
@@ -89,7 +114,7 @@ public class PointSystem : MonoBehaviour
 
     IEnumerator CheckOutOfLane()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(outOfLaneViolationDelay);
         if(outOfLane) points -= outOfLaneViolation;
         StartCoroutine(CheckOutOfLane());
     }
@@ -130,9 +155,17 @@ public class PointSystem : MonoBehaviour
             StartCoroutine(CheckForCarStop(detector));
         }
 
+
+        if (other.TryGetComponent<Node>(out Node node))
+        {
+            if (node.route != null) currentSpeedLimit = node.route.maxMPH;
+        }
+        
+
         if (!scenerioManager.hasReachedEnd && scenerioManager.endNode != null && other.transform.GetComponent<Node>() == scenerioManager.endNode)
         {
             scenerioManager.hasReachedEnd = true;
+            Debug.Log("yes");
             scenerioManager.OnReachEnd?.Invoke();
         }
     }

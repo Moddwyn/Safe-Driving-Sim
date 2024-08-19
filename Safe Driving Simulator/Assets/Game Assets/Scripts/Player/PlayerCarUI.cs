@@ -12,6 +12,7 @@ public class PlayerCarUI : MonoBehaviour
     public TMP_Text timeText;
     public TMP_Text timeTextWin;
 
+
     [HorizontalLine]
     public TMP_Text causeText;
     public TMP_Text speedText;
@@ -21,6 +22,10 @@ public class PlayerCarUI : MonoBehaviour
     public TMP_Text speedLimitText;
     public TMP_Text gamePointsText;
     [ReadOnly] public string cause;
+
+    [HorizontalLine]
+    public GameObject outOfLaneText;
+    public GameObject speedingText;
 
     [HorizontalLine]
     public RectTransform directionArrow;
@@ -40,6 +45,8 @@ public class PlayerCarUI : MonoBehaviour
         speedText.text = (int)player.currentSpeed + " MPH";
         pointText.text = "Points: " + pointSystem.points.ToString();
         gamePointsText.text = "Points: " + pointSystem.points.ToString();
+        outOfLaneText.SetActive(pointSystem.outOfLane);
+        speedingText.SetActive(pointSystem.speeding);
         UpdateFailUI();
         UpdateTimer();
         UpdateDirectionArrow();
